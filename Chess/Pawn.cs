@@ -7,7 +7,7 @@ namespace Chess
         public Pawn(int piecesId, string piecesName, TeamSideEnum teamSide)
             : base(piecesId, piecesName, teamSide, PiecesTypeEnum.Pawn, PiecesStateEnum.During, 'P')
         {
-        }
+        } 
 
         public override Func<Location, List<PieceHouse>, List<PiecesBase>, List<Location>> AvailablePointFormula =>
             (Location, Map, PiecesList) =>
