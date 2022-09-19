@@ -15,6 +15,8 @@ public class Location
 
     public bool Equals(Location obj)
     {
+        if(obj == null) return false;
+
         bool YEqual = this.YLocation == obj.YLocation;
         bool XEqual = this.XLocation == obj.XLocation;
         bool Equals = XEqual && YEqual;

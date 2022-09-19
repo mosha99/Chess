@@ -7,7 +7,7 @@ namespace Chess
         public Pawn(int piecesId, string piecesName, TeamSideEnum teamSide)
             : base(piecesId, piecesName, teamSide, PiecesTypeEnum.Pawn, PiecesStateEnum.During, 'P')
         {
-        } 
+        }
 
         public override Func<Location, List<PieceHouse>, List<PiecesBase>, List<Location>> AvailablePointFormula =>
             (Location, Map, PiecesList) =>
@@ -31,35 +31,58 @@ namespace Chess
 
         public List<Location> GetAvailblePointInMoveMode(Location location, List<PieceHouse> Map, List<PiecesBase> PiecesList)
         {
-         
+
             var enemiPiesec = new List<Location>();
 
             Location firstHouse = new Location(location.XLocation, location.YLocation + (int)TeamSide);
 
             int? firstHousePiecesid = Map.SingleOrDefault(p => p.location.Equals(firstHouse))?.PieceId;
 
-            if (firstHousePiecesid != null)  goto Out; 
+            if (firstHousePiecesid != null) goto Out;
 
             enemiPiesec.Add(firstHouse);
 
-            if(isFirstMove == false) goto Out; 
+            if (isFirstMove == false) goto Out;
 
             Location secendHouse = new Location(firstHouse.XLocation, firstHouse.YLocation + (int)TeamSide);
 
             int? secendHousePiecesid = Map.SingleOrDefault(p => p.location.Equals(firstHouse))?.PieceId;
 
-            if (secendHousePiecesid != null )  goto Out; 
+            if (secendHousePiecesid != null) goto Out;
 
             enemiPiesec.Add(secendHouse);
 
 
-            Out:
+        Out:
             return enemiPiesec;
         }
         public List<Location> GetAvailblePointInAttackMode(Location location, List<PieceHouse> Map, List<PiecesBase> PiecesList)
         {
-            var locNextLeft = new Location(location.XLocation + 1, location.YLocation + (int)TeamSide);
-            var locNextRight = new Location(location.XLocation - 1, location.YLocation + (int)TeamSide);
+
+
+            Location? locNextLeft = null;
+
+            Location? locNextRight = null;
+
+            try
+            {
+                locNextLeft = new Location(location.XLocation + 1, location.YLocation + (int)TeamSide);
+
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+
+            }
+
+            try
+            {
+
+                locNextRight = new Location(location.XLocation - 1, location.YLocation + (int)TeamSide);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+
+            }
 
             var enemiPiesec = Map
             .Where(p => p.location.Equals(locNextLeft) || p.location.Equals(locNextRight))
